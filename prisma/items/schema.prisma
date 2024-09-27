@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/itemDataClient"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL2")
+}
+
+model items {
+  id    Int    @id @default(autoincrement()) @map("id")
+  name  String @unique @map("name")
+  hp    Int?   @default(0) @map("hp")
+  atk   Int?   @default(0) @map("atk")
+  price Int    @default(100) @map("price")
+
+  @@map("items")
+}

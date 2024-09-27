@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/userDataClient"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL1")
+}
+
+model accounts {
+  id         Int         @id @default(autoincrement()) @map("id")
+  account    String      @unique @map("account")
+  password   String      @map("password")
+  created_at DateTime    @default(now()) @map("created_at")
+  updated_at DateTime    @updatedAt @map("updated_at")
+  charators  charators[]
+
+  @@map("accounts")
+}
+
+model charators {
+  id        Int         @id @default(autoincrement()) @map("id")
+  name      String      @unique @map("name")
+  hp        Int         @default(0) @map("hp")
+  atk       Int         @default(0) @map("atk")
+  accountid Int         @map("accountid")
+  createdAt DateTime    @default(now()) @map("createdAt")
+  updatedAt DateTime    @updatedAt @map("updatedAt")
+  account   accounts    @relation(fields: [accountid], references: [id], onDelete: Cascade)
+  equipment equipment[]
+  inventory inventory[]
+
+  @@index([accountid], map: "charators_accountid_fkey")
+  @@map("charators")
+}
+
+model inventory {
+  id         Int       @id @map("id")
+  charatorid Int       @map("charatorid")
+  itemid     Int       @map("itemid")
+  charator   charators @relation(fields: [charatorid], references: [id], onDelete: Cascade)
+
+  @@index([charatorid], map: "inventory_charatorid_fkey")
+  @@map("inventory")
+}
+
+model equipment {
+  id         Int       @id @map("id")
+  charatorid Int       @map("charatorid")
+  itemid     Int       @map("itemid")
+  charator   charators @relation(fields: [charatorid], references: [id], onDelete: Cascade)
+
+  @@index([charatorid], map: "equipment_charatorid_fkey")
+  @@map("equipment")
+}
