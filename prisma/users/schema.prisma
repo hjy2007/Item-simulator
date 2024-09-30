@@ -22,8 +22,9 @@ model accounts {
 model charators {
   id        Int         @id @default(autoincrement()) @map("id")
   name      String      @unique @map("name")
-  hp        Int         @default(0) @map("hp")
-  atk       Int         @default(0) @map("atk")
+  hp        Int         @default(500) @map("hp")
+  atk       Int         @default(100) @map("atk")
+  money     Int         @default(10000) @map("money")
   accountid Int         @map("accountid")
   createdAt DateTime    @default(now()) @map("createdAt")
   updatedAt DateTime    @updatedAt @map("updatedAt")
